@@ -67,6 +67,10 @@ final class StatisticService: StatisticServiceProtocol {
         if result.isBetterThan(bestGame){
             bestGame = result
         }
+        self.gamesCount += 1
+        self.totalQuestions += amount
+        self.totalCorrect += count
+        self.totalAccuracy = (Double(self.totalCorrect) / Double(self.totalQuestions))*100
     }
     
     

@@ -100,7 +100,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private func showNextQuestionOrResults() {
         if currentQuestionIndex == questionsAmount - 1 {
-            prepareStatistic()
+            statisticService.store(correct: correctAnswers, total: questionsAmount, date: Date())
             let text = "Ваш результат: \(correctAnswers)/10 \nКоличество сыгранных квизов: \(statisticService.gamesCount) \nРекорд: \(statisticService.bestGame.correct)/\(statisticService.bestGame.total) (\(statisticService.bestGame.date.dateTimeString)) \nСредняя точность: \(String(format: "%.2f", statisticService.totalAccuracy))%"
             let viewModel = QuizResultsViewModel(
                 title: "Этот раунд окончен!",
@@ -133,13 +133,13 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             self.showNextQuestionOrResults()
         }
     }
-    func prepareStatistic(){
-        statisticService.totalQuestions += questionsAmount
-        statisticService.totalCorrect += correctAnswers
-        statisticService.totalAccuracy = (Double(statisticService.totalCorrect) / Double(statisticService.totalQuestions))*100
-        statisticService.gamesCount += 1
-        statisticService.store(correct: correctAnswers, total: questionsAmount, date: Date())
-        
-    }
+//    func prepareStatistic(){
+//        statisticService.totalQuestions += questionsAmount
+//        statisticService.totalCorrect += correctAnswers
+//        statisticService.totalAccuracy = (Double(statisticService.totalCorrect) / Double(statisticService.totalQuestions))*100
+//        statisticService.gamesCount += 1
+//        statisticService.store(correct: correctAnswers, total: questionsAmount, date: Date())
+//        
+//    }
 }
 
