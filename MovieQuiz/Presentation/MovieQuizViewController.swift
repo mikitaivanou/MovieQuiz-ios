@@ -1,5 +1,5 @@
 import UIKit
-//для сдачи
+
 final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -29,7 +29,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private var questionFactory: QuestionFactoryProtocol?
     private var currentQuestion: QuizQuestion?
     private var alertPresenter = AlertPresenter()
-    var statisticService: StatisticServiceProtocol = StatisticService()
+    private var statisticService: StatisticServiceProtocol = StatisticService()
     
     private var currentQuestionIndex = 0
     private var correctAnswers = 0
@@ -45,12 +45,11 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     private func setupLayout() {
-        imageView.layer.cornerRadius = 10
+        imageView.layer.cornerRadius = 20
     }
     
     private func showAlert(quiz result: QuizResultsViewModel) {
-        let message = result.text   // уже готовый текст
-        
+        let message = result.text
         let model = AlertModel(
             title: result.title,
             message: message,
@@ -75,11 +74,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         return questionStep
     }
     
-    func show(quiz step: QuizStepViewModel) {
+    private func show(quiz step: QuizStepViewModel) {
         imageView.image = step.image
         textLabel.text = step.question
         counterLabel.text = step.questionNumber
-        
         imageView.layer.borderWidth = 0
         imageView.layer.borderColor = UIColor.clear.cgColor
     }
@@ -87,14 +85,12 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     @IBAction private func noButtonClicked(_ sender: UIButton) {
         guard let currentQuestion = currentQuestion else {return}
         let givenAnswer = false
-        
         showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
     
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
         guard let currentQuestion = currentQuestion else {return}
         let givenAnswer = true
-        
         showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
     
@@ -116,11 +112,12 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private func showAnswerResult(isCorrect: Bool) {
         yesButton.isEnabled = false
         noButton.isEnabled = false
-        imageView.layer.cornerRadius = 10
+        imageView.layer.cornerRadius = 20
         imageView.layer.borderWidth = 8
         imageView.layer.masksToBounds = true
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
-        if isCorrect {correctAnswers += 1
+        if isCorrect {
+            correctAnswers += 1
         }
         
         
@@ -133,13 +130,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             self.showNextQuestionOrResults()
         }
     }
-//    func prepareStatistic(){
-//        statisticService.totalQuestions += questionsAmount
-//        statisticService.totalCorrect += correctAnswers
-//        statisticService.totalAccuracy = (Double(statisticService.totalCorrect) / Double(statisticService.totalQuestions))*100
-//        statisticService.gamesCount += 1
-//        statisticService.store(correct: correctAnswers, total: questionsAmount, date: Date())
-//        
-//    }
+
 }
 
